@@ -2,6 +2,7 @@ package main
 
 import (
     "log"
+    "fmt"
     "strings"
     "net"
 
@@ -24,6 +25,8 @@ const (
 )
 
 func TestIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+    log.Printf("Access to / from %s\n", r.RemoteAddr)
+
     w.Write([]byte("<h1>Hello, 世界</h1>\n<p>Behold my Go web app.</p>"))
 }
 
@@ -44,6 +47,16 @@ func main() {
             mode = TCP
         } else if(strings.EqualFold(a, "-http")) {
             mode = HTTP
+        } else if(strings.EqualFold(a, "-logFile")) {
+            logfile := fmt.Sprintf("%s.log", os.Args[0])
+            log.Printf("Using file %s for log output", logfile)
+            //TODO use actual logfile!
+
+            f, err := os.OpenFile("server.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+            if err != nil {
+                log.Fatal("Failed to open log file")
+            }
+            log.SetOutput(f)
         }
     }
 
