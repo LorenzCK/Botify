@@ -4,6 +4,7 @@ import (
     "log"
     "fmt"
     "strings"
+    "path"
     "net"
 
     "net/http"
@@ -48,11 +49,11 @@ func main() {
         } else if(strings.EqualFold(a, "-http")) {
             mode = HTTP
         } else if(strings.EqualFold(a, "-logFile")) {
-            logfile := fmt.Sprintf("%s.log", os.Args[0])
+            exeName := path.Base(os.Args[0])
+            logfile := fmt.Sprintf("%s%s", exeName, LogExtension)
             log.Printf("Using file %s for log output", logfile)
-            //TODO use actual logfile!
 
-            f, err := os.OpenFile("server.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+            f, err := os.OpenFile(logfile, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
             if err != nil {
                 log.Fatal("Failed to open log file")
             }
@@ -65,11 +66,11 @@ func main() {
 
     if(mode == TCP) {
         log.Println("Starting to serve on TCP port 9999")
-        listener, _ := net.Listen("tcp", "127.0.0.1:9999")
+        listener, _ := net.Listen("tcp", TCPListenerAddress)
         log.Fatal(fcgi.Serve(listener, router))
     } else if(mode == HTTP) {
         log.Println("Starting to serve on HTTP port 8080")
-        log.Fatal(http.ListenAndServe(":8080", router))
+        log.Fatal(http.ListenAndServe(HTTPListenerAddress, router))
     } else {
         log.Fatal("No suitable listening protocol selected")
     }
