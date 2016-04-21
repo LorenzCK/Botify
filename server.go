@@ -1,18 +1,16 @@
 package main
 
 import (
-    "log"
     "fmt"
     "strings"
-    "path"
-    "net"
 
+    "path"
+    "os"
+    "log"
+
+    "net"
     "net/http"
     "net/http/fcgi"
-
-    "os"
-
-    "github.com/julienschmidt/httprouter"
 
 //    "database/sql"
 //    "github.com/go-sql-driver/mysql"
@@ -24,19 +22,6 @@ const (
     HTTP ServerMode = iota
     TCP
 )
-
-func TestIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-    log.Printf("Access to / from %s\n", r.RemoteAddr)
-
-    w.Write([]byte("<h1>Hello, 世界</h1>\n<p>Behold my Go web app.</p>"))
-}
-
-func SetupRouter() *httprouter.Router {
-    router := httprouter.New()
-    router.GET("/", TestIndex)
-
-    return router
-}
 
 func main() {
     log.Println("Starting up")
