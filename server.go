@@ -36,11 +36,11 @@ func main() {
         } else if(strings.EqualFold(a, "-logFile")) {
             exeName := path.Base(os.Args[0])
             logfile := fmt.Sprintf("%s%s", exeName, LogExtension)
-            log.Printf("Using file %s for log output", logfile)
+            log.Printf("Using file %s for log output\n", logfile)
 
             f, err := os.OpenFile(logfile, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
             if err != nil {
-                log.Fatal("Failed to open log file")
+                log.Fatalln("Failed to open log file")
             }
             log.SetOutput(f)
         }
@@ -50,13 +50,13 @@ func main() {
     router:= SetupRouter()
 
     if(mode == TCP) {
-        log.Println("Starting to serve on TCP port 9999")
+        log.Printf("Starting to serve on TCP %s\n", TCPListenerAddress)
         listener, _ := net.Listen("tcp", TCPListenerAddress)
-        log.Fatal(fcgi.Serve(listener, router))
+        log.Fatalln(fcgi.Serve(listener, router))
     } else if(mode == HTTP) {
-        log.Println("Starting to serve on HTTP port 8080")
-        log.Fatal(http.ListenAndServe(HTTPListenerAddress, router))
+        log.Printf("Starting to serve on HTTP %s\n", HTTPListenerAddress)
+        log.Fatalln(http.ListenAndServe(HTTPListenerAddress, router))
     } else {
-        log.Fatal("No suitable listening protocol selected")
+        log.Fatalln("No suitable listening protocol selected")
     }
 }
