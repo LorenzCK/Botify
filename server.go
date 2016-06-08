@@ -11,9 +11,6 @@ import (
     "net"
     "net/http"
     "net/http/fcgi"
-
-//    "database/sql"
-//    "github.com/go-sql-driver/mysql"
 )
 
 type ServerMode int
@@ -25,6 +22,20 @@ const (
 
 func main() {
     log.Println("Starting up")
+
+    {
+        conn, err := OpenBotifyDb()
+        if(err != nil) {
+            log.Fatalf("Cannot open DB: %s\n", err)
+        }
+
+        _, err = conn.Query("SHOW TABLES")
+        if(err != nil) {
+            log.Fatalf("Cannot query DB: %s\n", err)
+        }
+
+        defer conn.Close()
+    }
 
     // Command line parsing
     var mode = TCP
