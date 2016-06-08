@@ -10,7 +10,7 @@ import (
 
 var connectionStringBotify string = ""
 
-func OpenBotifyDb() (*sql.DB, error) {
+func openBotifyDb() (*sql.DB, error) {
     if(connectionStringBotify == "") {
         connectionStringBotify = fmt.Sprintf("%s:%s@%s/%s",
             DbConnectionUsername,
@@ -19,7 +19,23 @@ func OpenBotifyDb() (*sql.DB, error) {
             DbConnectionBotifyName)
     }
 
-    log.Printf("Opening connection to %s\n", connectionStringBotify)
+    //log.Printf("Opening connection to %s\n", connectionStringBotify)
 
     return sql.Open("mysql", connectionStringBotify)
+}
+
+var connectionStringProgramo string = ""
+
+func openProgramoDb() (*sql.DB, error) {
+    if(connectionStringBotify == "") {
+        connectionStringProgramo = fmt.Sprintf("%s:%s@%s/%s",
+            DbConnectionUsername,
+            DbConnectionPassword,
+            DbConnectionProgramoHost,
+            DbConnectionProgramoName)
+    }
+
+    //log.Printf("Opening connection to %s\n", connectionStringProgramo)
+
+    return sql.Open("mysql", connectionStringProgramo)
 }

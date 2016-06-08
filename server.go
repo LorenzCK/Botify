@@ -23,20 +23,6 @@ const (
 func main() {
     log.Println("Starting up")
 
-    {
-        conn, err := OpenBotifyDb()
-        if(err != nil) {
-            log.Fatalf("Cannot open DB: %s\n", err)
-        }
-
-        _, err = conn.Query("SHOW TABLES")
-        if(err != nil) {
-            log.Fatalf("Cannot query DB: %s\n", err)
-        }
-
-        defer conn.Close()
-    }
-
     // Command line parsing
     var mode = TCP
     for _, a := range os.Args[1:] {
