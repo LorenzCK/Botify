@@ -16,10 +16,11 @@ func openBotifyDb() (*sql.DB, error) {
             DbConnectionUsername,
             DbConnectionPassword,
             DbConnectionBotifyHost,
-            DbConnectionBotifyName)
+            DbConnectionBotifyName,
+        )
     }
 
-    //log.Printf("Opening connection to %s\n", connectionStringBotify)
+    log.Printf("Opening connection to %s\n", connectionStringBotify)
 
     return sql.Open("mysql", connectionStringBotify)
 }
@@ -32,10 +33,11 @@ func openProgramoDb() (*sql.DB, error) {
             DbConnectionUsername,
             DbConnectionPassword,
             DbConnectionProgramoHost,
-            DbConnectionProgramoName)
+            DbConnectionProgramoName,
+        )
     }
 
-    //log.Printf("Opening connection to %s\n", connectionStringProgramo)
+    log.Printf("Opening connection to %s\n", connectionStringProgramo)
 
     return sql.Open("mysql", connectionStringProgramo)
 }
