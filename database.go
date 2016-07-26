@@ -41,3 +41,29 @@ func openProgramoDb() (*sql.DB, error) {
 
     return sql.Open("mysql", connectionStringProgramo)
 }
+
+func GetBotsForUser(userId int) (string, error) {
+    conn, err := openBotifyDb()
+    if(err != nil) {
+        return "", err
+    }
+    defer conn.Close()
+
+    rows, err := conn.Query("SELECT `token` FROM `bots` WHERE `admin_user_id` = ?", userId)
+    if(err != nil) {
+        return "", err
+    }
+    defer rows.Close()
+
+    for rows.Next() {
+        var token string
+        err = rows.Scan(&token)
+        if(err != nil) {
+            return "", err
+        }
+
+        return token, nil
+    }
+
+    return "", nil
+}

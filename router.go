@@ -12,6 +12,13 @@ func TestIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     log.Printf("Access to '%s' from %s\n", r.RequestURI, r.RemoteAddr)
 
     w.Write([]byte("<h1>Hello, 世界</h1>\n<p>Behold my Go web app.</p>"))
+
+    result, err := GetBotsForUser(1)
+    if(err != nil) {
+        w.Write([]byte(fmt.Sprintf("<p>Error: %s</p>", err)))
+    } else {
+        w.Write([]byte(fmt.Sprintf("<p>Bot token for user 1: %s</p>", result)))
+    }
 }
 
 func RouteBotifyHook(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
