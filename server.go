@@ -46,6 +46,14 @@ func main() {
     log.Println("Setting up router")
     router:= SetupRouter()
 
+    log.Println("Setting up main web hook")
+    hook_url := fmt.Sprintf("%s/hook/%s", BotifyBaseUrl, BotifyBotToken)
+    err := TelegramSetWebhook(BotifyBotToken, hook_url)
+    if(err != nil) {
+        log.Fatalf("Failed to setup main webhook (%s)\n", err)
+    }
+
+    // Start listening
     if(mode == TCP) {
         log.Printf("Starting to serve on TCP %s\n", TCPListenerAddress)
         listener, _ := net.Listen("tcp", TCPListenerAddress)

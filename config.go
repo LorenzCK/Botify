@@ -13,3 +13,5 @@ const DbConnectionProgramoHost string = ""
 const DbConnectionProgramoName string = ""
 
 const BotifyBotToken string = ""
+const BotifyBaseUrl string = ""
+const BotifyCertificateAbsPath string = ""
