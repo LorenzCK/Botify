@@ -55,12 +55,12 @@ func main() {
 
     // Start listening
     if(mode == TCP) {
-        log.Printf("Starting to serve on TCP %s\n", TCPListenerAddress)
-        listener, _ := net.Listen("tcp", TCPListenerAddress)
+        log.Printf("Starting to serve on TCP %s\n", TcpListenerAddress)
+        listener, _ := net.Listen("tcp", TcpListenerAddress)
         log.Fatalln(fcgi.Serve(listener, router))
     } else if(mode == HTTP) {
-        log.Printf("Starting to serve on HTTP %s\n", HTTPListenerAddress)
-        log.Fatalln(http.ListenAndServe(HTTPListenerAddress, router))
+        log.Printf("Starting to serve on HTTP %s\n", HttpListenerAddress)
+        log.Fatalln(http.ListenAndServe(HttpListenerAddress, router))
     } else {
         log.Fatalln("No suitable listening protocol selected")
     }
