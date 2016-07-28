@@ -8,6 +8,14 @@ import (
     _ "github.com/go-sql-driver/mysql"
 )
 
+type Severity uint
+const (
+    DEBUG   Severity = 0
+    INFO    Severity = 64
+    WARNING Severity = 128
+    ERROR   Severity = 255
+)
+
 var connectionStringBotify string = ""
 
 func openBotifyDb() (*sql.DB, error) {
@@ -42,7 +50,7 @@ func openProgramoDb() (*sql.DB, error) {
     return sql.Open("mysql", connectionStringProgramo)
 }
 
-func GetBotsForUser(userId int) (string, error) {
+func DbGetBotsForUser(userId int) (string, error) {
     conn, err := openBotifyDb()
     if(err != nil) {
         return "", err
@@ -66,4 +74,24 @@ func GetBotsForUser(userId int) (string, error) {
     }
 
     return "", nil
+}
+
+func DbLog(context *Context, severity Severity, tag string, message string) {
+    conn, err := openBotifyDb()
+    if(err != nil) {
+        return
+    }
+    defer conn.Close()
+
+    //TODO Add context here
+    result, err := conn.Exec(
+        "INSERT INTO `log` (timestamp, severity, tag, message) VALUES(NOW(), ?, ?, ?)",
+        severity,
+        tag,
+        message,
+    )
+    if(err != nil) {
+        log.Printf("Failed to write to log (%s)", err)
+        return
+    }
 }

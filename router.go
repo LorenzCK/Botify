@@ -13,7 +13,7 @@ func TestIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
     w.Write([]byte("<h1>Hello, 世界</h1>\n<p>Behold my Go web app.</p>"))
 
-    result, err := GetBotsForUser(1)
+    result, err := DbGetBotsForUser(1)
     if(err != nil) {
         w.Write([]byte(fmt.Sprintf("<p>Error: %s</p>", err)))
     } else {
@@ -24,7 +24,7 @@ func TestIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func RouteBotifyHook(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     log.Printf("Access to '%s' from %s\n", r.RequestURI, r.RemoteAddr)
 
-    //Noop
+    w.Write([]byte("<h1>Botify hook</h1>\n<p>Behold my Go web app.</p>"))
 }
 
 func RouteHostedHook(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {

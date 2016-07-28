@@ -47,8 +47,8 @@ func main() {
     router:= SetupRouter()
 
     log.Println("Setting up main web hook")
-    hook_url := fmt.Sprintf("%s/hook/%s", BotifyBaseUrl, BotifyBotToken)
-    err := TelegramSetWebhook(BotifyBotToken, hook_url)
+    hookUrl := fmt.Sprintf("%s/hook/%s", BotifyBaseUrl, BotifyBotToken)
+    err := TelegramSetWebhook(BotifyBotToken, hookUrl)
     if(err != nil) {
         log.Fatalf("Failed to setup main webhook (%s)\n", err)
     }
